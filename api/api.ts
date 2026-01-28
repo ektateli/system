@@ -1,16 +1,15 @@
 import axios from 'axios';
 
-// In production, this would ideally come from an environment variable
-// Use a fallback for local development
+// When using Supabase, we mostly interact via the supabase client in api/supabase.ts.
+// This axios instance is kept as a fallback for custom endpoints if you deploy a separate backend.
 const BASE_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:8000' 
-  : 'https://api.your-production-domain.com';
+  : window.location.origin; // Use the same origin for relative API calls if needed
 
 export const api = axios.create({
   baseURL: BASE_URL,
 });
 
-// Add interceptor to include token if needed
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('sb-access-token') || localStorage.getItem('access_token');
   if (token) {
@@ -19,13 +18,11 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor for global error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.error('Session expired. Please log in again.');
-      // Optional: window.location.href = '#/login';
+      console.warn('Unauthorized request. Redirecting to login if necessary.');
     }
     return Promise.reject(error);
   }
