@@ -1,6 +1,4 @@
-
 import React from "react";
-// Fixed: Use namespace import to avoid named export issues in some environments
 import * as ReactRouterDOM from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -13,7 +11,6 @@ import {
   ShieldCheck
 } from "lucide-react";
 
-// Extracting members from ReactRouterDOM to fix named export errors
 const { Link, useLocation } = ReactRouterDOM as any;
 
 const menus = {
@@ -55,10 +52,10 @@ interface SidebarProps {
 export default function Sidebar({ role, isOpen, onClose }: SidebarProps) {
     const location = useLocation();
     const items = (menus as any)[role] || [];
+    const [logoError, setLogoError] = React.useState(false);
 
     return (
         <>
-            {/* Mobile Overlay */}
             {isOpen && (
                 <div 
                     className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden"
@@ -74,9 +71,16 @@ export default function Sidebar({ role, isOpen, onClose }: SidebarProps) {
                 <div className="p-6">
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center gap-3">
-                            <div className="bg-indigo-600 p-2 rounded-xl">
-                                <ShieldCheck className="w-6 h-6" />
-                            </div>
+                            {!logoError ? (
+                                <img 
+                                  src="assets/logo.png" 
+                                  alt="Logo" 
+                                  className="h-8 w-auto brightness-0 invert"
+                                  onError={() => setLogoError(true)}
+                                />
+                            ) : (
+                                <ShieldCheck className="w-8 h-8 text-indigo-500" />
+                            )}
                             <h1 className="text-xl font-bold tracking-tight">ProSupport</h1>
                         </div>
                         <button onClick={onClose} className="lg:hidden">

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProSupport Admin | Enterprise Support</title>
-    <!-- Favicon to fix 404 error -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,6 +13,10 @@
             background-color: #f8fafc;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+        }
+        #root {
+            min-height: 100vh;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -50,13 +53,15 @@
 <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.475.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.0.0/",
-    "react/": "https://esm.sh/react@^19.0.0/",
-    "react": "https://esm.sh/react@^19.0.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.2.0",
-    "axios": "https://esm.sh/axios@^1.7.9",
-    "recharts": "https://esm.sh/recharts@2.15.1",
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@7.2.0?deps=react@19.0.0,react-dom@19.0.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.475.0?deps=react@19.0.0",
+    "axios": "https://esm.sh/axios@1.7.9",
+    "recharts": "https://esm.sh/recharts@2.15.1?deps=react@19.0.0,react-dom@19.0.0",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1"
   }
 }
@@ -64,6 +69,5 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
-    <!-- Entry point is automatically injected by the platform -->
 </body>
 </html>

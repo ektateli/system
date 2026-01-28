@@ -1,7 +1,6 @@
 
 import React, { useContext } from 'react';
-// Fixed: Use namespace import to avoid named export issues in some environments
-import * as ReactRouterDOM from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
@@ -18,10 +17,7 @@ import TicketDetail from './components/TicketDetail';
 import BulkUpload from './components/BulkUpload';
 import EngineerDashboard from './components/EngineerDashboard';
 import EngineerTickets from './components/EngineerTickets';
-import { ShieldCheck, Loader2 } from 'lucide-react';
-
-// Extracting members from ReactRouterDOM to fix named export errors
-const { HashRouter: Router, Routes, Route, Navigate, useLocation } = ReactRouterDOM as any;
+import { Loader2 } from 'lucide-react';
 
 const App: React.FC = () => {
   return (
@@ -56,30 +52,30 @@ const AppContent = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       
-      {/* Protected Routes wrapped in AppLayout */}
       <Route
         path="*"
         element={
           token ? (
             <AppLayout>
               <Routes>
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/admin/users" element={<UsersPage />} />
-                <Route path="/admin/customers" element={<CustomersPage />} />
-                <Route path="/admin/projects" element={<ProjectsPage />} />
-                <Route path="/admin/sites" element={<SitesPage />} />
-                <Route path="/admin/tickets" element={<AdminTickets />} />
-                <Route path="/tickets/:id" element={<TicketDetail />} />
-                <Route path="/admin/bulk" element={<BulkUpload />} />
+                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="admin/users" element={<UsersPage />} />
+                <Route path="admin/customers" element={<CustomersPage />} />
+                <Route path="admin/projects" element={<ProjectsPage />} />
+                <Route path="admin/sites" element={<SitesPage />} />
+                <Route path="admin/tickets" element={<AdminTickets />} />
+                <Route path="tickets/:id" element={<TicketDetail />} />
+                <Route path="admin/bulk" element={<BulkUpload />} />
                 
-                <Route path="/engineer" element={<EngineerDashboard />} />
-                <Route path="/engineer/tickets" element={<EngineerTickets />} />
+                <Route path="engineer" element={<EngineerDashboard />} />
+                <Route path="engineer/tickets" element={<EngineerTickets />} />
                 
-                <Route path="/customer" element={<CustomerDashboard />} />
-                <Route path="/customer/create-ticket" element={<RaiseTicket />} />
-                <Route path="/customer/tickets" element={<CustomerTickets />} />
+                <Route path="customer" element={<CustomerDashboard />} />
+                <Route path="customer/create-ticket" element={<RaiseTicket />} />
+                <Route path="customer/tickets" element={<CustomerTickets />} />
                 
-                <Route path="/" element={<Navigate to="/admin" replace />} />
+                <Route path="" element={<Navigate to={token ? "/admin" : "/login"} replace />} />
+                <Route path="*" element={<Navigate to="/admin" replace />} />
               </Routes>
             </AppLayout>
           ) : (

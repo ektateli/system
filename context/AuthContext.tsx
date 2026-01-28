@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { supabase } from '../api/supabase';
 
@@ -35,7 +34,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     // Initial check for Supabase session
     const initAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      // Fix: Cast supabase.auth to any to bypass getSession property check on SupabaseAuthClient
+      const { data: { session } } = await (supabase.auth as any).getSession();
       if (session) {
         setToken(session.access_token);
         const metadata = session.user.user_metadata;
@@ -52,7 +52,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     initAuth();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Fix: Cast supabase.auth to any to bypass onAuthStateChange property check on SupabaseAuthClient
+    const { data: { subscription } } = (supabase.auth as any).onAuthStateChange((_event: any, session: any) => {
       if (session) {
         setToken(session.access_token);
         const metadata = session.user.user_metadata;
@@ -78,7 +79,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    // Fix: Cast supabase.auth to any to bypass signOut property check on SupabaseAuthClient
+    await (supabase.auth as any).signOut();
     setToken(null);
     setUser(null);
   };
